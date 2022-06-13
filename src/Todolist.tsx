@@ -1,5 +1,6 @@
 import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
 import {FilterValueType} from "./App";
+import style from './Todolist.module.css'
 
 type PropsTodolistType = {
     title: string
@@ -7,6 +8,7 @@ type PropsTodolistType = {
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValueType) => void
     addTask: (value: string) => void
+    changeStatus: (tId:string, newIsDone:boolean)=>void
 }
 
 type TaskType = {
@@ -21,8 +23,10 @@ export const Todolist = (props: PropsTodolistType) => {
 
 
     const onClickHandler = () => {
-        props.addTask(title)
-        setTitle('')
+        if(title.trim()!==''){
+            props.addTask(title.trim())
+            setTitle('')
+        }
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +48,7 @@ export const Todolist = (props: PropsTodolistType) => {
             <h3>{props.title}</h3>
             <div>
                 <input
+                    className={style.error}
                     onChange={onChangeHandler}
                     value={title}
                     onKeyPress={onKeyPressHandler}/>
@@ -54,9 +59,16 @@ export const Todolist = (props: PropsTodolistType) => {
                     const onClickHandler = ()=>{
                         props.removeTask(el.id)
                     }
+                    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+                        let newIsDoneValue = e.currentTarget.checked
+                        props.changeStatus(el.id, newIsDoneValue)
+                    }
                     return <li key={el.id}>
                         <button onClick={onClickHandler}>X</button>
-                        <input type="checkbox" checked={el.isDone}/>
+                        <input
+                            type="checkbox"
+                            onChange={onChangeHandler}
+                            checked={el.isDone}/>
                         <span>{el.title}</span>
                     </li>
                 })

@@ -24,6 +24,10 @@ function App() {
         setTasks([{id:v1(), title: value, isDone: true}, ...tasks])
     }
 
+    const changeStatus =(tId:string, newIsDone:boolean)=>{
+        setTasks(tasks.map(el=>el.id===tId?{...el,isDone: newIsDone}:el))
+    }
+
     const changeFilter = (value: FilterValueType) => {
         setFilter(value)
     }
@@ -46,6 +50,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 addTask={addTask}
+                changeStatus={changeStatus}
             />
         </div>
     );
