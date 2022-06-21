@@ -3,11 +3,12 @@ import {FilterValueType} from "./App";
 import style from './Todolist.module.css'
 
 type PropsTodolistType = {
+    todolistID:string
     title: string
     tasks: Array<TaskType>
     filter:FilterValueType
     removeTask: (taskId: string) => void
-    changeFilter: (value: FilterValueType) => void
+    changeFilter: (todolistID:string, filter: FilterValueType) => void
     addTask: (value: string) => void
     changeStatus: (tId:string, newIsDone:boolean)=>void
 }
@@ -48,7 +49,7 @@ export const Todolist = (props: PropsTodolistType) => {
     }
 
     const onChangeFilterHandler = (filter: FilterValueType) => {
-        props.changeFilter(filter)
+        props.changeFilter(props.todolistID, filter)
     }
     return (
         <div>
