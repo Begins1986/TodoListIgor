@@ -7,13 +7,14 @@ type PropsTodolistType = {
     title: string
     tasks: Array<TaskType>
     filter:FilterValueType
-    removeTask: (taskId: string) => void
+    removeTask: (todolistID:string, taskId: string) => void
     changeFilter: (todolistID:string, filter: FilterValueType) => void
-    addTask: (value: string) => void
-    changeStatus: (tId:string, newIsDone:boolean)=>void
+    addTask: (todolistID:string, value: string) => void
+    changeStatus: (todolistID:string, tId:string, newIsDone:boolean)=>void
+    removeTodolist:(todolistID: string)=>void
 }
 
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -27,7 +28,7 @@ export const Todolist = (props: PropsTodolistType) => {
 
     const onClickHandler = () => {
         if(title.trim()!==''){
-            props.addTask(title.trim())
+            props.addTask(props.todolistID, title.trim())
             setTitle('')
 
         } else{
@@ -51,9 +52,15 @@ export const Todolist = (props: PropsTodolistType) => {
     const onChangeFilterHandler = (filter: FilterValueType) => {
         props.changeFilter(props.todolistID, filter)
     }
+
+    const removeTodolistHandler = () => {
+      props.removeTodolist(props.todolistID)
+    }
+
     return (
         <div>
             <h3>{props.title}</h3>
+            <button onClick={removeTodolistHandler}>delete</button>
             <div>
                 <input
                     className={error?style.error: ''}
@@ -66,11 +73,11 @@ export const Todolist = (props: PropsTodolistType) => {
             <ul>
                 {props.tasks.map(el => {
                     const onClickHandler = ()=>{
-                        props.removeTask(el.id)
+                        props.removeTask(props.todolistID, el.id)
                     }
                     const onChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
                         let newIsDoneValue = e.currentTarget.checked
-                        props.changeStatus(el.id, newIsDoneValue)
+                        props.changeStatus(props.todolistID, el.id, newIsDoneValue)
                     }
                     return <li key={el.id} className={el.isDone? style.isDone:''}>
                         <button onClick={onClickHandler}>X</button>
