@@ -9,7 +9,7 @@ type EditableSpanPropsType = {
 export const EditableSpan = (props: EditableSpanPropsType) => {
 
     const [newTitle, setNewTitle] = useState<string>(props.title)
-    const [error, setError] = useState<string|null>(null)
+
 
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +19,6 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
         let changeTitle = newTitle.trim()
         if(changeTitle.trim()!==''){
             props.addItem(changeTitle)
-        } else{
-            setError('Title is required')
         }
     }
 
