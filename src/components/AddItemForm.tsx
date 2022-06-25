@@ -1,14 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import style from "../Todolist.module.css";
 
-
-type AddItemFormPropsType = ()=>{
+type AddItemFormType = {
     addItem: (newTitle:string)=>void
 }
 
-
-
-export const AddItemForm = (props:AddItemFormPropsType) => {
+export const AddItemForm = (props:AddItemFormType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string|null>(null)
 
@@ -17,10 +14,8 @@ export const AddItemForm = (props:AddItemFormPropsType) => {
         if(title.trim()!==''){
             props.addItem(newTitle)
             setTitle('')
-
         } else{
             setError('Title is required')
-
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
