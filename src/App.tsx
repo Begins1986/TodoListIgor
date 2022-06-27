@@ -9,7 +9,7 @@ import {Container, Grid, Paper} from "@material-ui/core";
 
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValueType
